@@ -1,16 +1,17 @@
-# Performance budget — proposed targets, not measured results
+# Performance budget — Moto-G6-first (unmeasured targets)
 
-## Non-negotiable priority
-ZIMT is **animation-maximalist**. Preserve rich, joyful animations and immediate touch feedback. Optimize wasted work first; dynamically reduce decorative rendering complexity before degrading primary interactions. Never trade data integrity or correct gesture semantics for speed.
+**Source of truth:** `docs/MOTION_FIRST_PLAN.md`; hardware: `docs/MOTO_G6_REFERENCE.md`.
 
-## Initial measurable targets
-- Input: visual touch response on the next renderable frame where feasible; record actual input-to-display latency on devices rather than asserting a universal threshold.
-- 60 Hz: aim for >=95% frames within 16.7 ms in a repeatable interaction scenario; 120 Hz: record 8.3 ms frame budget when the device and rendering path support it.
-- No sustained memory growth after 100 repeated interactions; compare stabilized heap after GC and inspect native/bitmap allocations.
-- Decorative animation must pause when offscreen/backgrounded. Avoid per-frame object allocation and redundant full-screen redraw.
-- Run >=15 minutes of representative motion on an actual device before declaring thermal/performance acceptance.
-- Collect cold-start, time-to-interactive, jank/frame timelines, peak heap, battery/thermal observations and device/OS/build SHA. **All targets remain PROPOSED until baselines exist.**
-- A missing benchmark or device does not count as PASS. Document UNVERIFIED and continue independent engineering tasks.
+## Acceptance dimensions
+- Touch: visual response on next feasible frame; preserve cancellation, gestures and data.
+- Frame pacing: record P50/P95/P99 and missed-frame percentage for fixed scenarios; provisional target >=95% frames meeting 16.67 ms 60 Hz frame period, subject to actual device baseline. Do not equate CPU frame duration with completed GPU presentation.
+- Memory: no sustained heap/bitmap growth after 100 repeated interactions; measure stable state and peak usage.
+- Lifecycle: no offscreen decorative rendering; correct resume, rotation and process recreation.
+- Thermal: >=15-minute physical-device test; note temperature/thermal indicators if available, and battery state. Never fabricate measurements.
+- Compare >=3 runs of release-like/profileable builds under comparable conditions, not debug-only timing. Record actual OS, model, refresh rate, build SHA and raw trace.
 
-## Evidence and release gate
-Keep per-scenario baseline, device, Android version, refresh rate, build SHA, capture date, raw trace/screenshot link and regression verdict. Reject known data loss, broken touch/cancel, crashes and severe sustained jank. Avoid rigid global timing thresholds on emulators or shared CI hosts.
+## Status
+All physical Moto G6 app measurements: **UNVERIFIED** until device test. Published 3D benchmarks do not establish ZIMT animation FPS.
+
+## Release gate
+Reject known crashes, data loss, broken gestures or verified severe regressions. Do not block CI on uncalibrated emulator frame thresholds. Use PASS / FAIL / UNVERIFIED with evidence.
