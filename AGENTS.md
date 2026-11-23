@@ -25,8 +25,8 @@ Build a polished, reliable, independently testable Android lab whose features ca
 - Preserve the project's own art direction, original user assets and feature scope. No generic template UI or arbitrary removal of playful animation merely for simplicity.
 
 ## Compatibility and performance release gates
-- Read `docs/PERFORMANCE_BUDGET.md`, `docs/COMPATIBILITY_MATRIX.md` and `docs/ADAPTIVE_MOTION.md` before changing rendering, gestures, animation or supported Android versions.
-- Preserve **animation maximalism**. Prioritize immediate touch/drawing and primary interactions; adapt ambient and secondary effects first when sustained frame pressure is measured. Pause offscreen animation, avoid per-frame allocations and lifecycle leaks.
+- Read `docs/MOTION_FIRST_PLAN.md`, `docs/MOTO_G6_REFERENCE.md`, `docs/PERFORMANCE_BUDGET.md` and `docs/COMPATIBILITY_MATRIX.md` before changing rendering, gestures, animation or supported Android versions.
+- Preserve **animation maximalism**. Prioritize immediate touch/drawing and primary interactions; profile the Moto G6 first and optimize measured GPU/CPU/memory bottlenecks without introducing generalized adaptive quality tiers. Pause offscreen animation, avoid per-frame allocations and lifecycle leaks.
 - Measure on representative devices or explicitly report **UNVERIFIED**. Never claim 60/120 Hz smoothness, memory stability, battery efficiency or compatibility based only on compilation. Record device, OS, build SHA, scenario and evidence.
 - Do not silently raise minSdk, change package identity, weaken data migration, or alter gesture timing to meet performance targets. Separate project-specific implementations from portable ZIMT interfaces.
 
@@ -37,7 +37,7 @@ For direct implementation orders, avoid progress-only messages and premature com
 This repository is intentionally a **blank future lab**. Do not invent a product concept, Android package ID, tech stack, signing identity, SDK level, UI design or build pipeline.
 Before first implementation, confirm the user's intended lab idea, create a short project-specific README/acceptance criteria, inspect any shared ZIMT interfaces, and choose the smallest maintainable implementation. Preserve the ability to install the lab separately and integrate its modules into ZIMT later.
 
-### Motion First 2.1 override (newer, binding)
+### Motion First 2.2 — binding strategy
 - **Moto-G6-first, not generalized adaptive quality control:** follow `docs/MOTION_FIRST_PLAN.md` and researched `docs/MOTO_G6_REFERENCE.md`. The older `docs/ADAPTIVE_MOTION.md` now explicitly defers to this decision.
 - Optimize actual expensive animations while preserving maximalist motion, identical interaction choreography and input priority. No automatic quality tiers unless measured failures require a narrow exception.
 - **Deferred ZIMT Performance Lab:** separately installable, privacy-preserving, user-run physical-device test APK; record real frame/jank/memory/lifecycle metrics and export reports. Do not claim a real Motorola test before it happens.
