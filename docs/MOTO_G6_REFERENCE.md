@@ -33,7 +33,7 @@ Sources (original URLs):
 
 ## Engineering implications (hypotheses to verify)
 - Favor cached static layers, cheap transforms, and bounded overdraw; measure blur, large alpha layers and shadow rendering.
-- Avoid decoding oversized PNGs on the animation frame; cache within a measured memory budget. 2160x1080 RGBA_8888 single full-screen buffer ≈8.9 MiB decimal / 8.90 MB, before copies/mipmaps; multiple buffers compound.
+- Avoid decoding oversized PNGs on the animation frame; cache within a measured memory budget. 2160x1080 RGBA_8888 single full-screen buffer ≈8.90 MiB / 9.33 MB, before copies/mipmaps; multiple buffers compound.
 - Prioritize immediate input and no per-frame allocations. Profile CPU main thread AND GPU; published 3D fps cannot predict Compose/Canvas UI fps.
 - Historical review reported relatively stable sustained graphics performance, but aging battery, OS and thermal environment may change real behavior.
 
