@@ -36,3 +36,8 @@ For direct implementation orders, avoid progress-only messages and premature com
 ## Unassigned lab — activation gate
 This repository is intentionally a **blank future lab**. Do not invent a product concept, Android package ID, tech stack, signing identity, SDK level, UI design or build pipeline.
 Before first implementation, confirm the user's intended lab idea, create a short project-specific README/acceptance criteria, inspect any shared ZIMT interfaces, and choose the smallest maintainable implementation. Preserve the ability to install the lab separately and integrate its modules into ZIMT later.
+
+### Motion First 2.1 override (newer, binding)
+- **Moto-G6-first, not generalized adaptive quality control:** follow `docs/MOTION_FIRST_PLAN.md` and researched `docs/MOTO_G6_REFERENCE.md`. The older `docs/ADAPTIVE_MOTION.md` now explicitly defers to this decision.
+- Optimize actual expensive animations while preserving maximalist motion, identical interaction choreography and input priority. No automatic quality tiers unless measured failures require a narrow exception.
+- **Deferred ZIMT Performance Lab:** separately installable, privacy-preserving, user-run physical-device test APK; record real frame/jank/memory/lifecycle metrics and export reports. Do not claim a real Motorola test before it happens.
