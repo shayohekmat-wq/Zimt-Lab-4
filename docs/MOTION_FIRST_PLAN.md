@@ -1,21 +1,30 @@
-# Motion First 2.1 — Moto-G6-first implementation plan
+# Motion First 2.2 — lean execution contract
 
-## Binding decision
-**Replace the proposed complex Adaptive Motion Engine with Moto-G6-first optimization.** Maintain maximalist, delightful animation, one consistent choreography across supported devices, and immediate touch response. No continuous device-performance classifier, multiple dynamic render-quality tiers or automatic animation-count reductions unless real measurements justify a narrowly scoped exception.
+## Decision
+**Moto-G6-first.** Preserve maximalist, joyful motion with the same choreography on supported devices. No generalized adaptive quality engine, no device performance polling, no arbitrary particle-count reductions. Optimize actual bottlenecks only.
 
-## Implementation order
-1. Establish reproducible benchmark scenarios and trace baseline before changing animation code.
-2. On Moto G6 prioritize touch latency, frame pacing, heap and thermal stability; optimize the most expensive actual animations first.
-3. Prefer cached/appropriately sized imagery, transforms, bounded overdraw, avoiding unnecessary redraws/recompositions and per-frame allocations; measure tradeoffs. Never assume sprite sheets are faster without memory checks.
-4. Preserve all gesture thresholds, cancellation semantics, persistent data, existing original PNG layers, app identity and signing. Never silently raise minSdk.
-5. Retest on Moto G6 and Nothing Phone 3a. Document PASS / FAIL / UNVERIFIED with build SHA, Android version and raw trace.
-6. Only minimal fallback: pause offscreen/background animations, honor reduced motion, address verified device/driver bugs. No generalized adaptive engine.
+## Three priorities (in order)
+1. **Input:** drag, touch, drawing and cancellation are never blocked by decoration; preserve exact gesture semantics and persistence.
+2. **GPU:** profile overdraw, translucent fullscreen layers, blur/shadow passes and unnecessary redraw/recomposition. Prefer measured cheap transforms, clipped drawing and appropriately sized cached assets. A full 2160x1080 RGBA8888 buffer is 9,331,200 bytes = 8.90 MiB; copies can exhaust memory.
+3. **Memory/consistency:** decode assets off animation-critical paths, avoid per-frame allocations, release inactive resources and pause offscreen animation.
 
-## Deferred project: standalone ZIMT Performance Lab
-Plan a **separately installable** Android APK, modular for future ZIMT integration; do not build it without prioritization. One-tap scripted 2–15 min tests, app-representative paper fold/throw, bucket wobble, dragging/drawing, layered alpha and particles. Measure frame timing/jank, heap and bitmap allocation, cold start, lifecycle and thermal/battery indicators when available. Record actual device model, RAM, OS, refresh rate, battery/thermal state, app SHA, scenario, timestamps and version. Export shareable JSON plus human-readable report; no personal notes/content; avoid sensitive identifiers; no network required. Physical phone run by user, analysis by assistant. Tests must never alter production data.
+## Measurement protocol
+- **Baseline before code change.** Record build SHA, phone model/OS/RAM, battery and thermal state, refresh rate, scene, iteration count and traces. Test release-like/profileable builds; debug timing is not a release performance claim.
+- **Repeatable scenarios:** cold start; 100 consecutive drag/draw cycles; fold/throw or relevant primary animation; overlapping animations; background/resume; 15-minute stress; data retention after process restart.
+- **Frame metrics:** track actual presentation/jank where supported; on Android 8/9 use available FrameMetrics/graphics traces and device tooling. Do **not** rely on Android 12+ `frameOverrunMs` on Moto G6. Separate CPU frame duration from GPU bottlenecks.
+- **Prioritize worst frames:** inspect P95/P99 and missed frames, not just mean FPS. 16.67 ms is a 60 Hz frame period, not a guarantee of end-to-end latency.
+- **A/B comparison:** same physical device, OS, scenario, compilation state and similar thermal conditions; >=3 repeat runs; preserve raw evidence. Mark unrun checks UNVERIFIED.
 
-## Source hardware and historical benchmarks
-See `docs/MOTO_G6_REFERENCE.md`. Historical 3D scores are *not* expected ZIMT UI fps. Current device measurements remain UNVERIFIED.
+## Optimization decision rule
+Only accept an optimization if it preserves the design/gesture behavior and improves the measured bottleneck without meaningful regressions in memory, thermal behavior or stability. Never add sprite sheets, caching, Baseline Profiles or benchmark dependencies solely because they sound faster; evaluate after profiling.
 
-## Architecture
-Lab 1 Java/Canvas and Lab 2 Kotlin/Compose use separate optimization implementations; Labs 3/4 inherit the quality contract but no invented app architecture. Integrate future modules into ZIMT through clear interfaces.
+## Deferred ZIMT Performance Lab
+A **separately installable**, offline-first APK with no production user data. A one-tap scenario suite should measure frame pacing/jank, CPU/UI timings where available, heap/bitmap memory, startup and lifecycle; export privacy-preserving JSON and readable summary with device/OS/build/scenario. The user runs it on a real Moto G6 and shares the report. Make the measurement module portable to main ZIMT. Android 8/9 metric limitations must be explicitly represented; no fabricated GPU utilization or thermal readings.
+
+## Project boundaries
+Lab 1: Java/Canvas, protect drawing and non-destructive editing. Lab 2: Kotlin/Compose, protect original PNG layers, Room data, note gesture thresholds, cancellation, signing and update identity. Labs 3/4: document standard only until scoped. Check `docs/MOTO_G6_REFERENCE.md` for historical hardware benchmarks, which are not UI FPS measurements.
+
+## References
+- https://developer.android.com/topic/performance/rendering/inspect-gpu-rendering
+- https://developer.android.com/topic/performance/measuring-performance
+- https://developer.android.com/topic/performance/benchmarking/macrobenchmark-metrics
