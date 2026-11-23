@@ -18,3 +18,7 @@
 
 ## Projektkontext
 **Lab 4:** Konkreter Produktbrief und Android-Technologie sind bislang nicht bestätigt. Keine Produktdetails oder SDK-Werte aus anderen Labs kopieren. Governance/Scope-Klärung und vorhandene Struktur sicher pflegen; danach erst autorisierte Features umsetzen. Eigenständig installierbar und später ZIMT-integrierbar.
+
+
+## Engineering Legibility Protocol 1.0
+Verbindlich ergänzend zur Development Doctrine: [ELP 1.0](docs/ENGINEERING_LEGIBILITY_PROTOCOL.md). Bei jeder relevanten Änderung verständliche Verantwortlichkeiten, explizite Datenwirkungen und nachvollziehbare Übergaben sicherstellen. Bestehende Dokumente und Nachweise nutzen; konkrete Probleme in der kanonischen Queue priorisieren. Keine separate Aufräumphase, keine zusätzlichen pauschalen Gates; Doctrine 7.0 bleibt unverändert maßgeblich.
