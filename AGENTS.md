@@ -18,6 +18,12 @@ Build a polished, reliable, independently testable Android lab whose features ca
 - **Security:** do not commit private keys, tokens or credentials; do not introduce network services or permissions without a product need.
 - **Scope discipline:** no speculative redesign, new features or destructive refactors in place of the requested milestone.
 
+## Design-director quality gate
+- **Animation-maximalist by default:** build many delightful, varied, tactile microinteractions and expressive transitions; motion can exist simply for joy and personality. Do not interpret “intentional” as “minimal”. Layer primary action, secondary material response and optional playful flourish. Keep interactions responsive, cancellable, accessible and efficient on supported older devices.
+- Treat art direction, visual hierarchy, material authenticity, coherent states, animation, haptics and optional sound as first-class acceptance criteria. Inspect actual screenshots and recordings where tools permit; a green build is not design approval.
+- Read `docs/DESIGN_PRINCIPLES.md` and `docs/DESIGN_QA.md` before implementing or approving UI changes. Capture PASS/FAIL/UNVERIFIED evidence for relevant visual, motion and usability gates. Never claim device or visual QA when not performed.
+- Preserve the project's own art direction, original user assets and feature scope. No generic template UI or arbitrary removal of playful animation merely for simplicity.
+
 ## Communication and recovery
 For direct implementation orders, avoid progress-only messages and premature completion reports. Distinguish **verified**, **implemented but untested**, **incomplete** and **blocked**. If no project-specific checkpoint exists, create one only when a real interruption makes it useful. These instructions cannot extend execution limits or schedule background work.
 
