@@ -24,6 +24,12 @@ Build a polished, reliable, independently testable Android lab whose features ca
 - Read `docs/DESIGN_PRINCIPLES.md` and `docs/DESIGN_QA.md` before implementing or approving UI changes. Capture PASS/FAIL/UNVERIFIED evidence for relevant visual, motion and usability gates. Never claim device or visual QA when not performed.
 - Preserve the project's own art direction, original user assets and feature scope. No generic template UI or arbitrary removal of playful animation merely for simplicity.
 
+## Compatibility and performance release gates
+- Read `docs/PERFORMANCE_BUDGET.md`, `docs/COMPATIBILITY_MATRIX.md` and `docs/ADAPTIVE_MOTION.md` before changing rendering, gestures, animation or supported Android versions.
+- Preserve **animation maximalism**. Prioritize immediate touch/drawing and primary interactions; adapt ambient and secondary effects first when sustained frame pressure is measured. Pause offscreen animation, avoid per-frame allocations and lifecycle leaks.
+- Measure on representative devices or explicitly report **UNVERIFIED**. Never claim 60/120 Hz smoothness, memory stability, battery efficiency or compatibility based only on compilation. Record device, OS, build SHA, scenario and evidence.
+- Do not silently raise minSdk, change package identity, weaken data migration, or alter gesture timing to meet performance targets. Separate project-specific implementations from portable ZIMT interfaces.
+
 ## Communication and recovery
 For direct implementation orders, avoid progress-only messages and premature completion reports. Distinguish **verified**, **implemented but untested**, **incomplete** and **blocked**. If no project-specific checkpoint exists, create one only when a real interruption makes it useful. These instructions cannot extend execution limits or schedule background work.
 
